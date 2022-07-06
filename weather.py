@@ -28,5 +28,5 @@ dict_data=json.loads(response.text)
 pprint.pprint(dict_data)
 
 #Filter the dictionary data to move selected information into the dataframe
-df.loc[len(df.index)] = [userscity, dict_data['location'], usersdate, 270, 105]
+df.loc[len(df.index)] = [userscity, dict_data['location']['country'], usersdate, dict_data['forecast'], 75]
 print(df)
