@@ -1,6 +1,6 @@
 # This program uses the weather api to get historical forecast info
 # for a city and date input by the user
-# version 2.2 July 6,2022
+# version 2.3 July 6,2022
 import requests
 import json
 import pprint
