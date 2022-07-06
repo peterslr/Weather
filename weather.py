@@ -7,7 +7,7 @@ import sqlalchemy as db
 from sqlalchemy import create_engine
 
 #create a dataframe to hold the api data
-col_names=['City', 'Country', 'Date', 'Time', 'Temp']
+col_names=['City', 'Country', 'Date', 'Latitude', 'Longitude']
 df=pd.DataFrame(columns=col_names)
 
 #Get the users input
@@ -28,5 +28,13 @@ dict_data=json.loads(response.text)
 pprint.pprint(dict_data)
 
 #Filter the dictionary data to move selected information into the dataframe
-df.loc[len(df.index)] = [userscity, dict_data['location']['country'], usersdate, dict_data['forecast'], 75]
+df.loc[len(df.index)] = [userscity, dict_data['location']['country'], usersdate, dict_data['location']['lat'], dict_data['location']['lon']]
 print(df)
+
+#Create database and move the dataframe into a database
+engine=db.create_engine('sqlite:///weatherdatabase.db')
+df.to_sql('basic_info', con=engine, if_exists='replace', index=False)
+
+#Query the database and print the result
+query_result=engine.execute("select City, Longitude from basic_info;").fetchall()
+print(pd.DataFrame(query_result))
